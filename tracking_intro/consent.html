@@ -1,0 +1,70 @@
+{% block styles %}
+    <link href="{{ static 'global/css/Carbontask.css'}}" rel="stylesheet">
+{% endblock %}
+
+<div class="card bg-light m-3">
+    <div class="card-body">
+        <h3>
+            Consent Form
+        </h3>
+        <p>
+            You have been invited to participate in a research study to help us better understand your beliefs and behaviors. This study is supervised by MSc Anne Günther and Prof. Ulf J.J. Hahnel, Faculty of Psychology, University of Basel, Switzerland.
+            If you agree to participate in this study, you will be asked to:
+        </p>
+        <ul>
+            <li>Provide some personal information, including your age, gender, and political orientation.</li>
+            <li>Complete a series of online questionnaires that may inquire about your attitudes and beliefs.</li>
+            <li>Make hypothetical decisions between different product alternatives and policy packages.</li>
+        </ul>
+        <p>
+            Your participation will take no more than 25 minutes, and there are no known risks associated with your involvement in this research beyond those of everyday life. You will receive payment from Prolific for your participation. This research aims to enhance our understanding of individuals' beliefs and behaviors.
+        </p>
+        <p>
+            In one part of the study, we will be observing your interactions with the study materials by tracking your mouse movements on your computer. This will involve recording details such as how long your cursor remains over specific study elements and the locations of your mouse clicks. We will inform you beforehand when this part of the study begins.
+        </p>
+        <p>
+            To participate in this study, you must have access to a device equipped with a mouse or touchpad. Please note that smartphones and tablets are not compatible with this study due to the mouse tracking technology in use.
+        </p>
+        <p>
+            Confidentiality of your research records will be strictly maintained by assigning code numbers to each participant so that data is never directly linked to individual identity. The data may be made available in anonymized form on Open Science platforms, allowing other researchers to use the data for research purposes without revealing your identity.
+        </p>
+        <p>
+            Participation in this study is voluntary. You have the right to refuse to participate or withdraw at any time without any penalty.
+        </p>
+        <p>
+            At the end of the survey, you will have the opportunity to receive information about the aim of the research project.
+        </p>
+        <p>
+            If you have any questions, concerns, or encounter any issues related to the study, you may contact MSc Anne Günther at anne.guenther@unibas.ch.
+        </p>
+        <p>
+            Please check the box below to indicate that you are at least 18 years old and agree to participate. If you do not wish to participate, simply close this window.
+        </p>
+        <p>
+            Based on the information presented above, I confirm that I wish to take part in this study and I authorize:
+        </p>
+        <table>
+            <tr>
+                <td> <input name="dataScience" id="id_dataScience" type="checkbox" class="larger" onchange="checkNext()" /> </td>
+                <td> The use of the data for scientific purposes and the publication of
+                    the results of the study in scientific journals or books, given that the data will be anonymous and that no
+                    information about my identity will be disclosed.</td>
+            </tr>
+            <tr>
+                <td><input name="dataTeach" id="id_dataTeach" type="checkbox" class="larger" onchange="checkNext()" /> </td>
+                <td> The use of the data for teaching purposes (courses and lectures for
+                    students and professionals subject to professional confidentiality).</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    function checkNext() {
+        if ($("#id_dataScience")[0].checked && $("#id_dataTeach")[0].checked) {
+            $("#consent-next").attr("disabled", false)
+        } else {
+            $("#consent-next").attr("disabled", true)
+        }
+    }
+</script>

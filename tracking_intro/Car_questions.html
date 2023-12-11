@@ -1,0 +1,69 @@
+{% block styles %}
+    <link href="{{ static 'global/css/Carbontask.css'}}" rel="stylesheet">
+{% endblock %}
+
+{{ block title }}Mobility and car-related questions{{ endblock }}
+
+{% block content %}
+
+<p>Please answer the following questions about your mobility behavior.</p>
+
+<div>
+    {% formfield player.drivers_license %}
+    <div id="own_car">
+        {% formfield player.own_car %}
+    </div>
+    <div id="car_model" style="display: none;">
+        {% formfield player.car_model %}
+    </div>
+    <div id="car_number" style="display: none;">
+        {% formfield player.car_number %}
+    </div>
+    <div id="car_age" style="display: none;">
+        {% formfield player.car_age %}
+    </div>
+    {% formfield player.car %}
+</div>
+
+
+{%  next_button %}
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+document.getElementById('id_own_car-0').onchange = function() { showCarDetails(); };
+document.getElementById('id_own_car-1').onchange = function() { showCarDetails(); };
+document.getElementById('id_own_car-2').onchange = function() { showCarDetails(); };
+document.getElementById('id_own_car-3').onchange = function() { showCarDetails(); };
+
+function showCarDetails() {
+    var carModelDiv = document.getElementById('car_model');
+    var carNumberDiv = document.getElementById('car_number');
+    var carAgeDiv = document.getElementById('car_age');
+    var ownCarOptions = document.getElementsByName('own_car');
+
+    if (ownCarOptions[0].checked) {
+        carModelDiv.style.display = 'none';
+        carNumberDiv.style.display = 'none';
+        carAgeDiv.style.display = 'none';
+    } else {
+        carModelDiv.style.display = 'block';
+        carNumberDiv.style.display = 'block';
+        carAgeDiv.style.display = 'block';
+    }
+
+    // Enable the Next button regardless of hidden questions
+    document.getElementById('next-button').disabled = false;
+}
+
+// Override the default behavior of the Next button
+document.getElementById('next-button').addEventListener('click', function(e) {
+    // Implement custom logic here if needed
+    // No need to prevent default behavior
+});
+
+</script>
+
+{% endblock %}

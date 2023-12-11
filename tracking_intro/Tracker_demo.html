@@ -1,0 +1,209 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block styles %}
+    <style type="text/css">
+        .flip-card {
+            perspective: 1000px;
+        }
+
+        .flip-card {
+            width: 300px;
+            height: 90px;
+            min-width: 300px;
+            margin: 10px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgb(169,169,169);
+
+            border-color: gray;
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 2%;
+            background-color: lightgray;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateX(180deg);
+        }
+
+        .flip-card-front span {
+            padding: 50px;
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            padding: 25pt 0;
+        }
+
+        .flip-card-back {
+            transform: rotateX(-180deg);
+        }
+
+        .flip-card-back {
+            color: black;
+            background-color: lightgray;
+        }
+    </style>
+{% endblock %}
+
+{% block title %} Practice Task {{ endblock }}
+{% block content %}
+
+    <p>
+    Behind the boxes you will find information about the classes three professors teach. <br>
+        You can look at the content of the boxes by moving the mouse pointer into the box. <br>
+        The box will open, and you can see the information until you move the mouse out of the box again.<br><br>
+        Please try to answer the question below.
+    <br>
+    <br>
+</p>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 my_flipcards">
+            <img style="width:100%; max-width:300px;" src="{{ static 'global/images/professor.webp' }}">
+            <div class="flip-card tracked_element">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front valign-wrapper jok">
+                        <span style="font-weight: bold;">Box A</span>
+                    </div>
+                    <div class="flip-card-back valign-wrapper jok">
+                        <span>Professor Marx: Spanish</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card tracked_element">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front valign-wrapper jok">
+                        <span style="font-weight: bold;">Box B</span>
+                    </div>
+                    <div class="flip-card-back valign-wrapper jok">
+                        <span>Professor Smith: Philosophy</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flip-card tracked_element">
+                <div class="flip-card-inner">
+                    <div class="flip-card-front valign-wrapper jok">
+                        <span style="font-weight: bold;">Box C</span>
+                    </div>
+                    <div class="flip-card-back valign-wrapper jok">
+                        <span>Professor Jones: Marketing</span>
+                    </div>
+                </div>
+            </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+             <p>What class does Professor Smith teach?</p>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="teacher" id="Marketing" value="Marketing">
+                <label class="form-check-label" for="teacherMarketing">
+                    Marketing
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="teacher" id="Philosophy" value="Philosophy">
+                <label class="form-check-label" for "teacherPhilosophy">
+                    Philosophy
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="teacher" id="Spanish" value="Spanish">
+                <label class="form-check-label" for="teacherSpanish">
+                    Spanish
+                </label>
+            </div>
+            {{ formfield_errors 'teacher' }}
+            <p id="feedback" style="color: red; display: none;">That was not correct. Try again!</p>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="col-6 offset-3 text-center"> <!-- Center-align and offset the button to the left -->
+            <button id="next-button" type="submit" class="btn btn-primary">Next</button>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        let hover_events = {};
+
+        $(".tracked_element").mouseenter(function(e) {
+            // entering starts a new hover event
+            let enter_time = Date.now();
+            myid = e.target.id.substring(0, 6)
+            hover_events[myid] = {
+                element_id: myid,
+                enter_time: enter_time,
+                leave_time: undefined
+            };
+            console.log("hallo printe mal")
+            console.log(hover_events[myid])
+
+           // visualization only
+           //$("#"+e.target.id+"_state").text("mouse entered");
+           //$("#"+e.target.id+"_enter").text(enter_time);
+           //$("#"+e.target.id+"_leave").text("");
+        });
+
+        $(".tracked_element").mouseleave(function (e) {
+            // this concludes a hover event
+            let leave_time = Date.now();
+            myid = e.target.id.substring(0, 6)
+            hover_events[myid]["leave_time"] = leave_time;
+            hover_events[myid]["duration"] = leave_time - hover_events[myid]["enter_time"];
+            hover_events[myid]["attributeType"] = $('#'+ myid + '_frontspan').text();
+            hover_events[myid]["attributeValue"] = $('#'+ myid + '_backspan').text();
+
+            // send the event and free up the element in the dictionary.
+            liveSend(hover_events[myid]);
+            console.log("hallo printe gehen")
+            console.log(hover_events[myid])
+
+            delete(hover_events[myid]);
+
+            // visualization only
+            //$("#"+e.target.id+"_state").text('mouse left');
+            //$("#"+e.target.id+"_leave").text(leave_time);
+        });
+
+        // Function to check the selected answer and provide feedback
+        function checkAnswer() {
+            let selectedAnswer = $('input[name="teacher"]:checked').val();
+            if (selectedAnswer !== "Philosophy") {
+                // Show the feedback message in red
+                $('#feedback').css('display', 'block');
+                // Disable the "Next" button
+                $('#next-button').attr('disabled', 'disabled');
+            } else {
+                // Hide the feedback message if the correct answer is selected
+                $('#feedback').css('display', 'none');
+                // Enable the "Next" button
+                $('#next-button').removeAttr('disabled');
+            }
+        }
+
+        // Initially, disable the "Next" button
+        $('#next-button').attr('disabled', 'disabled');
+        // Attach the change event listener to the radio buttons
+        $('input[name="teacher"]').change(checkAnswer);
+    </script>
+{% endblock %}

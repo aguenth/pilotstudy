@@ -1,0 +1,12 @@
+{% block styles %}
+    <link href="{{ static 'global/css/Carbontask.css'}}" rel="stylesheet">
+{% endblock %}
+
+{{ block content }}
+
+
+{{ include_sibling 'practice_completed.html' }}
+
+
+{{ next_button }}
+{{ endblock }}

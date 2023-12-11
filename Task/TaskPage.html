@@ -1,0 +1,333 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+
+{% block styles %}
+<style type="text/css">
+        .flip-card {
+            perspective: 1000px;
+            width: 300px;
+            height: 100px;
+            min-width: 350px;
+            margin: 10px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.7s;
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 8px 0 rgb(169, 169, 169);
+            border-color: gray;
+            border-width: 1px;
+            border-style: solid;
+            border-radius: 2%;
+            background-color: lightgray;
+        }
+
+        .flip-card:hover .flip-card-inner {
+            transform: rotateX(180deg);
+        }
+
+        .flip-card-front span,
+        .flip-card-back span {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .flip-card-back {
+            transform: rotateX(-180deg);
+            color: black;
+            background-color: lightgray;
+        }
+
+    .btn-choice {
+        color: white;
+    }
+
+    .btn-custom {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    .btn-custom:hover {
+        background-color: #0056b3;
+    }
+
+    .button-container {
+        margin-left: 120px; /* Adjust the margin  */
+    }
+
+   .block-instruction-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, .95);
+    z-index: 1000; /* Set a high z-index to ensure it appears above other elements */
+}
+
+.card-content {
+    max-width: 80%;
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Stack child elements vertically */
+    align-items: center; /* Center child elements horizontally */
+    font-size: large;
+}
+
+.block-instruction-card p {
+    margin-bottom: 15px;
+}
+
+.block-instruction-card button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.block-instruction-card button:hover {
+    background-color: #0056b3;
+}
+
+</style>
+
+
+{% endblock %}
+
+
+{% block content %}
+{% if is_first_trial_of_block %}
+    <div class="block-instruction-card" id="blockInstructionCard" style="display: none;">
+        <div class="card-content">
+            {% if completed_block %}
+                <p><b>{{ Constants.affirmative_text }}</b></p>
+            {% endif %}
+            {% if product_first %}
+                {{ include_sibling 'instruction_product.html' }}
+                <br>
+                <br>
+                <p><b>{{ block_text }}</b></p>
+            {% elif policy_block %}
+                {{ include_sibling 'instruction_policy.html' }}
+            {% elif product_second and first_block_was_policy%}
+                {{ include_sibling 'instruction_product.html' }}
+            {% else %}
+                <p>On the next pages, we ask you again to decide for or against electric vehicle offers. As before, please consider the following attributes that vary across the offers:</p>
+        <ul style="text-align:left">
+        <li><b>Investment Costs:</b> This monetary attribute defines the total investment costs of the electric car. Citizens may be eligible for government subsidies (tax credits), which reduce the costs. The costs depend on the make and subsidies received.</li>
+        <li><b>Savings on Driving:</b> Electric vehicles generally cost less to drive than traditional gasoline cars. Savings are calculated based on electricity prices and efficiency for 100 miles.</li>
+        <li><b>Life Cycle Emissions:</b> This refers to the greenhouse gas emissions associated with the electric vehicle over its entire life cycle, measured per 100 miles driven. It includes emissions from manufacturing, electricity production, and disposal.  </li>
+        <li><b>Battery Range:</b> Battery range indicates the distance an electric vehicle can travel on a single charge. It defines how far you can drive before needing to recharge the vehicle's battery.</li>
+        <li><b>Adopters in the Neighborhood:</b> This attribute represents the percentage of people in your neighborhood or community who currently own electric cars. It indicates the number of residents who have already adopted electric vehicles. </li>
+        </ul>
+                <p><b>{{ block_text }}</b></p>
+            {% endif %}
+            <div id="hideInstructionButton" class="btn btn-primary">Start Task</div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 my_flipcards">
+        {% if policy_block %}
+            <img style="width:100%; margin-left: 105px; max-width:150px;" src="{% static 'global/images/policy.webp' %}">
+        {% else %}
+            <img style="width:100%; margin: 10px; max-width:350px;" src="{% static 'global/images/EV.webp' %}">
+        {% endif %}
+            {% for attribute, level in attributes.items %}
+                <div class="flip-card tracked_element" data-loop-counter="{{ forloop.counter }}" id="att_{{ attribute }}">
+                     <div class="flip-card-inner">
+                        <div id="att_{{ forloop.counter }}_frontwrapper" class="flip-card-front valign-wrapper jok">
+                    <span id="att_{{ forloop.counter }}_frontspan" style="font-weight: bold;">{{ attribute }}</span>
+                    </div>
+                    <div id="att_{{ forloop.counter }}_backwrapper" class="flip-card-back valign-wrapper jok">
+                <span id="att_{{ forloop.counter }}_backspan">{{ level }}</span>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+        </div>
+    </div>
+</div>
+
+    {% if policy_block %}
+        <br>
+        <h5><b>Would you support this policy package?</b></h5>
+    {% else %}
+        <br>
+        <h5><b>Would you buy this electric vehicle?</b></h5>
+    {% endif %}
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="button-container">
+            <button id="choiceYesButton" class="btn btn-custom">Yes</button>
+            <button id="choiceNoButton" class="btn btn-custom">No</button>
+
+        </div>
+        <input class="form-check-input" type="radio" name="choice" id="choiceYes" style="display: none" value="Yes">
+        <input class="form-check-input" type="radio" name="choice" id="choiceNo" style="display: none" value="No">
+        {{ formfield_errors 'choice' }}
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-6 offset-3 text-center">
+        <button id="nextButton" class="btn btn-primary" style="display: none;">Next</button>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+<script type="text/javascript">
+    let hover_events = {};
+    let currentlyHoveredElement = null;
+
+    // Flag to track whether at least one flip card has been hovered
+    let flipCardHovered = false;
+
+    // Function to enable the buttons
+    function enableButtons() {
+        flipCardHovered = true;
+        updateButtonStatus();
+    }
+
+    // Function to show or hide the buttons based on hover status
+    function updateButtonStatus() {
+        const displayStyle = flipCardHovered ? "inline-block" : "none";
+        choiceYesButton.style.display = displayStyle;
+        choiceNoButton.style.display = displayStyle;
+    }
+
+$(".tracked_element").mouseenter(function() {
+    // entering starts a new hover event
+    let enter_time = Date.now();
+    let loopCounter = $(this).data('loop-counter');
+
+    if (currentlyHoveredElement !== loopCounter) {
+        // Check if there's a currently hovered element and wait for its leave event to complete
+        if (currentlyHoveredElement) {
+            handleMouseLeave(currentlyHoveredElement);
+        }
+
+        currentlyHoveredElement = loopCounter;
+
+        hover_events[currentlyHoveredElement] = {
+            element_id: 'att_' + currentlyHoveredElement,
+            enter_time: enter_time,
+            leave_time: undefined
+        };
+        console.log("hallo printe enter");
+        console.log(hover_events[currentlyHoveredElement]);
+
+        if (!flipCardHovered) {
+            enableButtons();
+        }
+    }
+});
+
+$(".tracked_element").mouseleave(function () {
+    let leave_time = Date.now();
+    let previousElement = currentlyHoveredElement;
+    currentlyHoveredElement = null;
+
+    handleMouseLeave(previousElement, leave_time);
+});
+    function handleMouseLeave(elementId, leave_time) {
+    if (hover_events[elementId]) {
+        hover_events[elementId]["leave_time"] = leave_time;
+        hover_events[elementId]["duration"] = leave_time - hover_events[elementId]["enter_time"];
+        hover_events[elementId]["attributeType"] = $('#' + 'att_' + elementId + '_frontspan').text();
+        hover_events[elementId]["attributeValue"] = $('#' + 'att_' + elementId + '_backspan').text();
+        hover_events[elementId]["choice"] = $('input[name="choice"]:checked').val();
+    }
+
+
+    liveSend(hover_events[elementId]);
+    console.log("hallo printe leave");
+    console.log(hover_events[elementId]);
+
+    delete hover_events[elementId];
+}
+
+    const choiceYesButton = document.getElementById("choiceYesButton");
+    const choiceNoButton = document.getElementById("choiceNoButton");
+    const choiceYesRadio = document.getElementById("choiceYes");
+    const choiceNoRadio = document.getElementById("choiceNo");
+    const nextButton = document.getElementById("nextButton");
+    const hideInstructionButton = document.getElementById("hideInstructionButton"); // Add this line to get the Hide Instruction button
+
+// Initially hide the buttons
+updateButtonStatus();
+
+// Function to hide the instruction card
+function hideInstructionCard() {
+    const instructionCard = document.getElementById("blockInstructionCard");
+    if (instructionCard.style.display !== "none") {
+        instructionCard.style.display = "none";
+    }
+}
+
+// Function to trigger the next button
+function triggerNext() {
+    triggerNextButton();
+}
+
+// Add event listeners to the custom buttons
+choiceYesButton.addEventListener("click", function () {
+    choiceYesRadio.click();  // Trigger the click event on the radio button
+    triggerNext();
+});
+
+choiceNoButton.addEventListener("click", function () {
+    choiceNoRadio.click();  // Trigger the click event on the radio button
+    triggerNext();
+});
+
+
+// Show block instruction card on the first trial of each block
+    {% if is_first_trial_of_block %}
+        $(document).ready(function () {
+            $("#blockInstructionCard").fadeIn();
+            $("#hideInstructionButton").click(function () {
+                $("#blockInstructionCard").fadeOut();
+            });
+        });
+    {% endif %}
+
+</script>
+{% endblock %}
