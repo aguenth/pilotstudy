@@ -115,11 +115,18 @@
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 15px
 }
 
 .block-instruction-card button:hover {
     background-color: #0056b3;
 }
+
+#hideInstructionButton {
+    position: relative;
+    left: 50%; /* Adjust as needed */
+    transform: translateX(-50%);
+  }
 
 </style>
 
@@ -154,7 +161,7 @@
         </ul>
                 <p><b>{{ block_text }}</b></p>
             {% endif %}
-            <div id="hideInstructionButton" class="btn btn-primary">Start Task</div>
+            <div id="hideInstructionButton" class="btn btn-primary" >Start Task</div>
         </div>
     </div>
 {% endif %}

@@ -13,6 +13,9 @@
     <div id="own_car">
         {% formfield player.own_car %}
     </div>
+    <div id="car_type" style="display: none;">
+        {% formfield player.car_type %}
+    </div>
     <div id="car_model" style="display: none;">
         {% formfield player.car_model %}
     </div>
@@ -21,6 +24,12 @@
     </div>
     <div id="car_age" style="display: none;">
         {% formfield player.car_age %}
+    </div>
+    <div id="car_replace" style="display: none;">
+        {% formfield player.car_replace %}
+    </div>
+    <div id="km_week" style="display: none;">
+        {% formfield player.km_week %}
     </div>
     {% formfield player.car %}
 </div>
@@ -35,34 +44,48 @@
 <script>
 document.getElementById('id_own_car-0').onchange = function() { showCarDetails(); };
 document.getElementById('id_own_car-1').onchange = function() { showCarDetails(); };
-document.getElementById('id_own_car-2').onchange = function() { showCarDetails(); };
-document.getElementById('id_own_car-3').onchange = function() { showCarDetails(); };
 
 function showCarDetails() {
     var carModelDiv = document.getElementById('car_model');
     var carNumberDiv = document.getElementById('car_number');
     var carAgeDiv = document.getElementById('car_age');
+    var carReplaceDiv = document.getElementById('car_replace');
+    var carTypeDiv = document.getElementById('car_type');
+    var kmWeekDiv = document.getElementById('km_week');
     var ownCarOptions = document.getElementsByName('own_car');
 
     if (ownCarOptions[0].checked) {
         carModelDiv.style.display = 'none';
         carNumberDiv.style.display = 'none';
         carAgeDiv.style.display = 'none';
+        carReplaceDiv.style.display = 'none';
+        carTypeDiv.style.display = 'none';
+        kmWeekDiv.style.display = 'none';
+
+        // Make fields mandatory
+        document.getElementById('id_car_model').required = false;
+        document.getElementById('id_car_number').required = false;
+        document.getElementById('id_car_age').required = false;
+        document.getElementById('id_car_replace').required = false;
+        document.getElementById('id_car_type').required = false;
+        document.getElementById('id_km_week').required = false;
     } else {
         carModelDiv.style.display = 'block';
         carNumberDiv.style.display = 'block';
         carAgeDiv.style.display = 'block';
+        carReplaceDiv.style.display = 'block';
+        carTypeDiv.style.display = 'block';
+        kmWeekDiv.style.display = 'block';
+
+        // Make fields mandatory
+        document.getElementById('id_car_model').required = true;
+        document.getElementById('id_car_number').required = true;
+        document.getElementById('id_car_age').required = true;
+        document.getElementById('id_car_replace').required = true;
+        document.getElementById('id_car_type').required = true;
+        document.getElementById('id_km_week').required = true;
     }
-
-    // Enable the Next button regardless of hidden questions
-    document.getElementById('next-button').disabled = false;
 }
-
-// Override the default behavior of the Next button
-document.getElementById('next-button').addEventListener('click', function(e) {
-    // Implement custom logic here if needed
-    // No need to prevent default behavior
-});
 
 </script>
 
