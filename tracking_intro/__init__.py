@@ -103,7 +103,7 @@ class Player(BasePlayer):
         choices=[['every year', 'Every year'],
                  ['every four years', 'Every 4 years'],
                  ['every eight years', 'Every 8 years'],
-                 ['every twelve years', 'Every 12 years']],
+                 ['every twelve years', 'Every 12 years or when it needs replacement']],
         widget=widgets.RadioSelect,
         blank=True,
     )
