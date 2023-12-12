@@ -1,0 +1,24 @@
+{% block styles %}
+    <link href="{{ static 'global/css/Carbontask.css'}}" rel="stylesheet">
+{% endblock %}
+
+{{ block title }}Electric Vehicle Questions{{ endblock }}
+
+{% block content %}
+
+<p>Please answer the following questions about electric vehicles.</p>
+
+<div>
+    {% if player.field_maybe_none('car_type') and player.car_type != "gasoline" %}
+        {% formfield player.wom_owner %}
+    {% endif %}
+    {% formfield player.wom_number %}
+    {% formfield player.wom_positive %}
+    {% formfield player.wom_negative %}
+</div>
+
+{{ next_button }}
+
+{% endblock %}
+
+
