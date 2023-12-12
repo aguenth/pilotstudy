@@ -122,10 +122,14 @@
     background-color: #0056b3;
 }
 
-#hideInstructionButton {
-    position: relative;
+#choiceQuestion {
+    padding: 50px;
     left: 50%; /* Adjust as needed */
-    transform: translateX(-50%);
+  }
+
+#choiceQuestionPolicy {
+    padding: 30px;
+    left: 50%; /* Adjust as needed */
   }
 
 </style>
@@ -148,18 +152,18 @@
                 <p><b>{{ block_text }}</b></p>
             {% elif policy_block %}
                 {{ include_sibling 'instruction_policy.html' }}
-            {% elif product_second and first_block_was_policy%}
+            {% elif product_second and first_block_was_policy %}
                 {{ include_sibling 'instruction_product.html' }}
             {% else %}
-                <p>On the next pages, we ask you again to decide for or against electric vehicle offers. As before, please consider the following attributes that vary across the offers:</p>
-        <ul style="text-align:left">
-        <li><b>Investment Costs:</b> This monetary attribute defines the total investment costs of the electric car. Citizens may be eligible for government subsidies (tax credits), which reduce the costs. The costs depend on the make and subsidies received.</li>
-        <li><b>Savings on Driving:</b> Electric vehicles generally cost less to drive than traditional gasoline cars. Savings are calculated based on electricity prices and efficiency for 100 miles.</li>
-        <li><b>Life Cycle Emissions:</b> This refers to the greenhouse gas emissions associated with the electric vehicle over its entire life cycle, measured per 100 miles driven. It includes emissions from manufacturing, electricity production, and disposal.  </li>
-        <li><b>Battery Range:</b> Battery range indicates the distance an electric vehicle can travel on a single charge. It defines how far you can drive before needing to recharge the vehicle's battery.</li>
-        <li><b>Adopters in the Neighborhood:</b> This attribute represents the percentage of people in your neighborhood or community who currently own electric cars. It indicates the number of residents who have already adopted electric vehicles. </li>
-        </ul>
-                <p><b>{{ block_text }}</b></p>
+                    <p>On the next pages, we ask you again to decide for or against electric vehicle offers. As before, please consider the following attributes that vary across the offers:</p>
+                    <ul style="text-align:left">
+                        <li><b>Investment Costs:</b> This monetary attribute defines the total investment costs of the electric car. Citizens may be eligible for government subsidies (tax credits), which reduce the costs. The costs depend on the make and subsidies received.</li>
+                        <li><b>Savings on Driving:</b> Electric vehicles cost less to drive than traditional gasoline cars. The savings are calculated compared to the costs of driving a gasoline car and are based on electricity prices and efficiency for 100 miles.</li>
+                        <li><b>Life Cycle Emissions:</b> This refers to the greenhouse gas emissions associated with the electric vehicle over its entire life cycle, measured per 100 miles driven. It includes emissions from manufacturing, electricity production, and disposal.  </li>
+                        <li><b>Battery Range:</b> Battery range indicates the distance an electric vehicle can travel on a single charge. It defines how far you can drive before needing to recharge the vehicle's battery.</li>
+                        <li><b>Adopters in the Neighborhood:</b> This attribute represents the percentage of people in your neighborhood or community who currently own electric cars. It indicates the number of residents who have already adopted electric vehicles. </li>
+                    </ul>
+                    <p><b>{{ block_text }}</b></p>
             {% endif %}
             <div id="hideInstructionButton" class="btn btn-primary" >Start Task</div>
         </div>
@@ -170,9 +174,9 @@
     <div class="row">
         <div class="col-12 my_flipcards">
         {% if policy_block %}
-            <img style="width:100%; margin-left: 105px; max-width:150px;" src="{% static 'global/images/policy.webp' %}">
+            <img style="width:100%; margin: 10px; max-width:350px;" src="{% static 'global/images/policy.webp' %}">
         {% else %}
-            <img style="width:100%; margin: 10px; max-width:350px;" src="{% static 'global/images/EV.webp' %}">
+            <img style="width:100%; margin: 10px; max-width:350px;" src="{% static 'global/images/ev.webp' %}">
         {% endif %}
             {% for attribute, level in attributes.items %}
                 <div class="flip-card tracked_element" data-loop-counter="{{ forloop.counter }}" id="att_{{ attribute }}">
@@ -190,17 +194,23 @@
     </div>
 </div>
 
-    {% if policy_block %}
-        <br>
-        <h5><b>Would you support this policy package?</b></h5>
-    {% else %}
-        <br>
-        <h5><b>Would you buy this electric vehicle?</b></h5>
-    {% endif %}
+
 
 <div class="row mt-4">
     <div class="col-12">
+
+        {% if policy_block %}
+        <span id="choiceQuestionPolicy" style="font-size: 18px; text-align: center">Would you support this policy package?</span>
+            <br>
+            <br>
+        {% else %}
+        <span id="choiceQuestion" style="font-size: 18px; text-align: center"">Would you buy this electric vehicle?</span>
+            <br>
+            <br>
+        {% endif %}
+
         <div class="button-container">
+
             <button id="choiceYesButton" class="btn btn-custom">Yes</button>
             <button id="choiceNoButton" class="btn btn-custom">No</button>
 

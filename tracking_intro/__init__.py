@@ -20,7 +20,9 @@ class Player(BasePlayer):
     age = models.IntegerField(label='What is your <b>age</b>?', min=18, max=99)
     gender = models.StringField(
         label='What is your <b>gender</b>?',
-        choices=[['Male', 'Male'], ['Female', 'Female'], ['Prefer not to answer/ non-binary', 'Prefer not to answer/ non-binary']],
+        choices=[['Male', 'Male'],
+                 ['Female', 'Female'],
+                 ['Prefer not to answer/ non-binary', 'Prefer not to answer/ non-binary']],
         widget=widgets.RadioSelect,
     )
     education = models.StringField(
@@ -38,6 +40,22 @@ class Player(BasePlayer):
                  ['$50,001 to $75,000', '$50,001 to $75,000'],
                  ['$75,001 to $100,000', '$75,001 to $100,000'],
                  ['> $100,001', '> $100,001']],
+        widget=widgets.RadioSelect,
+    )
+    household = models.StringField(
+        label='How many people live in your household?',
+        choices=[['1', 'Just me'],
+                 ['2', '2 people'],
+                 ['3', '3 people'],
+                 ['4', '4 people'],
+                 ['5', 'More than 5 people']],
+        widget=widgets.RadioSelect,
+    )
+    region = models.StringField(
+        label='In which type of region do you live?',
+        choices=[['1', 'Urban'],
+                 ['2', 'Suburban'],
+                 ['3', 'Rural']],
         widget=widgets.RadioSelect,
     )
 
@@ -126,6 +144,12 @@ class Player(BasePlayer):
                  ['never', 'Never']],
         widget=widgets.RadioSelect,
         )
+
+    affect_ev = models.IntegerField(widget=widgets.RadioSelect,
+                                               choices=[['1', ''], ['2', '2'], ['3', '3'],
+                                                        ['4', '4'], ['5', '5'], ['6', '6'], ['7', '7'], ['8', '8'],
+                                                        ['9', '9'], ['10', '10']])
+
     # Consent fields
     dataScience = models.BooleanField(initial=False)
     dataTeach = models.BooleanField(initial=False)
@@ -191,7 +215,7 @@ class introduction_consent(Page):
 # Demographics Page class
 class Demographics(Page):
     form_model = 'player'
-    form_fields = ['age', 'gender', 'education', 'income']
+    form_fields = ['age', 'gender', 'education', 'income', 'household', 'region']
 
 
 class Car_questions(Page):
@@ -210,6 +234,11 @@ class Car_questions(Page):
 class WoM(Page):
     form_model = 'player'
     form_fields = ['wom_owner', 'wom_number', 'wom_positive', 'wom_negative']
+
+
+class affect(Page):
+    form_model = 'player'
+    form_fields = ['affect_ev']
 
 
 class instructions(Page):
@@ -231,6 +260,7 @@ page_sequence = [
     Demographics,
     Car_questions,
     WoM,
+    affect,
     instructions,
     Tracker_demo,
     practice_completed_template
