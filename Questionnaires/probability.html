@@ -1,0 +1,138 @@
+{% block styles %}
+    <link href="{{ static 'global/css/Carbontask.css'}}" rel="stylesheet">
+{% endblock %}
+{{ block title }}Thank you for evaluating the electric vehicle offers and policy packages!{{ endblock }}
+{{ block content }}
+
+<style>
+    .question {
+        margin: 0;
+        /* Adjust this value to control spacing between sentences */
+        padding: 0;
+        /* Optionally adjust padding if needed */
+        line-height: 0.5;
+        size: 17;
+    }
+
+    .radio-column {
+        width: 10%;
+        min-width: 63px;
+        max-width: 93px;
+        text-align: left;
+    }
+
+    th, td {
+        padding: 1vh;
+        text-align: left;
+    }
+
+    #choicetable {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+</style>
+
+<p>
+    Below are some general questions about the advantages and disadvantages of electric vehicles for you personally.
+    <br>
+    <br>
+    <b>How likely do you think you are to benefit from the following advantages when buying an electric vehicle?</b>
+    <br>
+    <br>
+    Buying an electric vehicle would allow me to...
+</p>
+
+
+<table class="radiotable">
+    <tr> <th></th>
+        <th class="radio-column"> Very unlikely (1) </th>
+        <th class="radio-column"> 2 </th>
+        <th class="radio-column"> 3 </th>
+        <th class="radio-column"> 4 </th>
+        <th class="radio-column"> 5 </th>
+        <th class="radio-column"> Very likely (6) </th>
+    </tr>
+    <tr>
+    <th style="font-weight:normal;">{{ form.ev_prob_benefits1.label }}</th>
+    <td>{{ form.ev_prob_benefits1.0 }}</td>
+    <td>{{ form.ev_prob_benefits1.1 }}</td>
+    <td>{{ form.ev_prob_benefits1.2 }}</td>
+    <td>{{ form.ev_prob_benefits1.3 }}</td>
+    <td>{{ form.ev_prob_benefits1.4 }}</td>
+    <td>{{ form.ev_prob_benefits1.5 }}</td>
+</tr>
+<tr>
+    <th style="font-weight:normal;">{{ form.ev_prob_benefits2.label }}</th>
+    <td>{{ form.ev_prob_benefits2.0 }}</td>
+    <td>{{ form.ev_prob_benefits2.1 }}</td>
+    <td>{{ form.ev_prob_benefits2.2 }}</td>
+    <td>{{ form.ev_prob_benefits2.3 }}</td>
+    <td>{{ form.ev_prob_benefits2.4 }}</td>
+    <td>{{ form.ev_prob_benefits2.5 }}</td>
+</tr>
+<tr>
+    <th style="font-weight:normal;">{{ form.ev_prob_benefits3.label }}</th>
+    <td>{{ form.ev_prob_benefits3.0 }}</td>
+    <td>{{ form.ev_prob_benefits3.1 }}</td>
+    <td>{{ form.ev_prob_benefits3.2 }}</td>
+    <td>{{ form.ev_prob_benefits3.3 }}</td>
+    <td>{{ form.ev_prob_benefits3.4 }}</td>
+    <td>{{ form.ev_prob_benefits3.5 }}</td>
+</tr>
+<tr>
+    <th style="font-weight:normal;">{{ form.ev_prob_benefits4.label }}</th>
+    <td>{{ form.ev_prob_benefits4.0 }}</td>
+    <td>{{ form.ev_prob_benefits4.1 }}</td>
+    <td>{{ form.ev_prob_benefits4.2 }}</td>
+    <td>{{ form.ev_prob_benefits4.3 }}</td>
+    <td>{{ form.ev_prob_benefits4.4 }}</td>
+    <td>{{ form.ev_prob_benefits4.5 }}</td>
+</tr>
+    </table>
+<br>
+<br>
+<p>
+    <b>How likely do you think you are to experience the following disadvantages when buying an electric vehicle?</b>
+    <br>
+    <br>
+    Buying an electric vehicle would entail...
+</p>
+<table class="radiotable">
+    <tr> <th></th>
+        <th class="radio-column"> Very unlikely (1) </th>
+        <th class="radio-column"> 2 </th>
+        <th class="radio-column"> 3 </th>
+        <th class="radio-column"> 4 </th>
+        <th class="radio-column"> 5 </th>
+        <th class="radio-column"> Very likely (6) </th>
+    </tr>
+<tr>
+    <th style="font-weight:normal;">{{ form.ev_prob_risks1.label }}</th>
+    <td>{{ form.ev_prob_risks1.0 }}</td>
+    <td>{{ form.ev_prob_risks1.1 }}</td>
+    <td>{{ form.ev_prob_risks1.2 }}</td>
+    <td>{{ form.ev_prob_risks1.3 }}</td>
+    <td>{{ form.ev_prob_risks1.4 }}</td>
+    <td>{{ form.ev_prob_risks1.5 }}</td>
+</tr>
+<tr>
+    <th style="font-weight:normal;">{{ form.ev_prob_risks2.label }}</th>
+    <td>{{ form.ev_prob_risks2.0 }}</td>
+    <td>{{ form.ev_prob_risks2.1 }}</td>
+    <td>{{ form.ev_prob_risks2.2 }}</td>
+    <td>{{ form.ev_prob_risks2.3 }}</td>
+    <td>{{ form.ev_prob_risks2.4 }}</td>
+    <td>{{ form.ev_prob_risks2.5 }}</td>
+</tr>
+</table>
+
+<div class="next-btn radiotable">
+    <div style="float: right; padding-top: 2vh;">
+         {% next_button %}
+    </div>
+</div>
+
+
+{% endblock %}
+

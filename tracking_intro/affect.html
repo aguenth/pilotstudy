@@ -1,0 +1,23 @@
+{% block styles %}
+    <link href="{{ static 'global/css/Carbontask.css'}}" rel="stylesheet">
+{% endblock %}
+
+{{ block title }}Feeling towards EVs{{ endblock }}
+{{ block content }}
+
+<div class="radiotable" style="padding-top:2vh; padding-left:1vw;">
+<p> Overall, how do you feel about electric cars? </p>
+<p style="text-indent: 7vw;">
+    very negative &nbsp;
+    {{ for choice in form.affect_ev}}
+        {{ choice }}
+    {{ endfor }}
+    &nbsp; very positive
+</p>
+</div>
+
+
+{{ next_button }}
+
+{% endblock %}
+
