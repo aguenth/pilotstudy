@@ -1684,7 +1684,7 @@ class Constants(BaseConstants):
              'take into account that the government has introduced a carbon tax on gasoline. '
              'This tax increases the savings of an electric car compared to a gasoline car per 100 miles.',
         'B': 'Please note the following decisions: In addition to the above attributes,'
-             'take into account that the government has introduced a carbon tax on gasoline. '
+             ' take into account that the government has introduced a carbon tax on gasoline. '
              'This tax increases the savings of an electric car compared to a gasoline car per 100 miles.',
         'C': '',
         'D': '',
